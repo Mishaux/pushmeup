@@ -28,8 +28,8 @@ module APNS
   def self.stop_persistence
     @persistent = false
     
-    @ssl.close
-    @sock.close
+    @ssl.close unless @ssl.nil?
+    @sock.close unless @sock.nil?
   end
   
   def self.send_notification(device_token, message)
@@ -80,8 +80,8 @@ protected
     rescue StandardError, Errno::EPIPE
       raise unless attempts < @retries
     
-      @ssl.close
-      @sock.close
+      @ssl.close unless @ssl.nil?
+      @sock.close unless @sock.nil?
     
       attempts += 1
       retry
